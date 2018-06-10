@@ -4,51 +4,46 @@ var wins = 0;
 var losses = 0;
 var guessesLeft = 9;
 var guessesSoFar = [];
+var resetGuesses = " ";
+var computerOption = alphabetLetters[Math.floor(Math.random() * alphabetLetters.length)];
+
+document.querySelector('#wins').innerText = wins;
+document.querySelector('#losses').innerText = losses;
+document.querySelector('#guessesleft').innerText = guessesLeft;
+document.querySelector('#yourguesses').innerText = guessesSoFar;
 
 function playGame(ev){
     var userGuess = ev.key;
+    
+    var computerLetter;
 
-    var letterToBeGuessed = Math.floor(Math.random()*alphabetLetters.length);
-
-    var computerOption = alphbetLetters[letterToBeGuessed];
-
-document.querySelector('#wins').innerText = wins;
-document.querySelector('#losses').innterText = losses;
-document.querySelector('guessesleft').innerText = guessesLeft;
-document.querySelector('#yourguesses').innerText = guessesSoFar;
-
-if (userGuess == computerOption) {
-    wins++;
-    guessesLeft = 9;
-    guessSoFar = [];
-    computerOption = alphabetLetters[Math.floor(Math.random() * alphabetLetters.length)];
-    document.querySelector('#wins').innerText = wins;
-    document.querySelector('guessesleft').innerText = guessesLeft;
-    document.querySelector('#yourguesses').innerText = guessesSoFar;
+    if (userGuess == computerOption) {
+        wins++;
+        alert ("You won");
+        guessesLeft = 9;
+        guessesSoFar = [];
+        resetGuesses = " ";
+        computerOption = alphabetLetters[Math.floor(Math.random() * alphabetLetters.length)];
+        
+        document.querySelector('#wins').innerText = wins;
+        document.querySelector('#guessesleft').innerText = guessesLeft;
+        document.querySelector('#yourguesses').innerText = resetGuesses;
+    } if (userGuess != computerOption) {
+        guessesLeft--;
+        guessesSoFar.push(userGuess);
+        document.querySelector('#guessesleft').innerText = guessesLeft;
+        document.querySelector('#yourguesses').innerText = guessesSoFar;
+    } if (guessesLeft == 0) {
+        losses++;
+        alert ("You lost");
+        guessesLeft = 9;
+        resetGuesses = "";
+        guessesSoFar = [];
+        computerOption = alphabetLetters[Math.floor(Math.random() * alphabetLetters.length)];
+        //this last one should have the computer pick another random letter
+        document.querySelector('#guessesleft').innerText = guessesLeft;
+        document.querySelector('#yourguesses').innerText = guessesSoFar;
+        document.querySelector('#losses').innerText = losses;
+    }
 }
-
-if (userGuess != computerOption) {
-    guessesLeft--;
-    guessesSoFar[guessesSoFar.length]=userGuess;
-    document.querySelector('#guessesleft').innerText = guessesLeft;
-    document.querySelector('#yourguesses').innerText = guessesSoFar;
-}
-
-if (guessesLeft == 0) {
-    losses++;
-    alert ("You lost");
-    guessLeft = 9;
-    guessesSoFar = [];
-    computerOption = alphabetLetters[Math.floor(Math.random() * alphabetLetters.length)];
-    //this last one should have the computer pick another random letter
-    document.querySelector('#guessesleft').innerText = guessesLeft;
-    document.querySelector('#yourguesses').innerText = guessesSoFar;
-    document.querySelector('#losses').innerText = losses;
-}
-
-
-	// When user presses a key, it records it and saves to userGuess
-	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-
-	document.onkeyup = playGame;
-}
+    document.onkeyup = playGame;
